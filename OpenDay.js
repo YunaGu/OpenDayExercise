@@ -95,6 +95,20 @@ function populateTopics(obj) {
     // console.log(topic.Description);
     topicDescription.textContent = "topic Description: " + topic.description;
 
+    const sortProgramsButton = document.createElement("button");
+    sortProgramsButton.textContent = "Sort Programs";
+    sortProgramsButton.classList.add("border-2", "p-1", "rounded-lg", "text-white");
+
+    sortProgramsButton.addEventListener("click", function() {
+      if (ascending) {
+          topic.programs.sort((a, b) => b.id - a.id);
+      } else {
+          topic.programs.sort((a, b) => a.id - b.id);
+      }
+      populateTopics(obj);
+      ascending = !ascending;
+  });
+
     const programsContainer = document.createElement("div");
     // console.log(programsContainer);
     topic.programs.forEach((program) => {
@@ -198,6 +212,7 @@ function populateTopics(obj) {
     topicDetailsContainer.appendChild(topicContainerText);
     topicContainerText.appendChild(topicName);
     topicContainerText.appendChild(topicDescription);
+    topicContainerText.appendChild(sortProgramsButton);
     // topicDetailsContainer.appendChild(topicCoverImage);
 
     topicsContainer.appendChild(topicDetailsContainer);
