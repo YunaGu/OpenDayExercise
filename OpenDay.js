@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded",function(){
   const sortButton = document.createElement("Button");
   sortButton.textContent = "Sort Topics";
   sortButton.id = "sortButton";
+  sortButton.classList.add("border-2", "p-1", "rounded-lg", "text-center");
 
   const header = document.querySelector(".OpenDay");
   
@@ -43,11 +44,11 @@ function populateTopics(obj) {
   myH1.textContent = obj.description;
   // console.log(obj.description);
   header.appendChild(myH1);
-  let myH2 = document.createElement("h2");
-  //   myH2.classList.add("text-sm", "text-gray-700", "font-medium");
+  const myH2 = document.createElement("h2");
+  myH2.classList.add("text-lg", "text-gray-700", "font-medium","text-center");
   myH2.textContent = "Start from " + obj.start_time + " to " + obj.end_time;
-  myH1.appendChild(myH2);
-  header.appendChild(sortButton);
+  header.appendChild(myH2);
+  myH2.appendChild(sortButton);
 
   // console.log(obj.topics);
   obj.topics.forEach((topic) => {
