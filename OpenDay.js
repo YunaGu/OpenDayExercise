@@ -1,3 +1,16 @@
+document.addEventListener("DOMContentLoaded",function(){
+  let ascending = false;
+  const sortButton = document.createElement("Button");
+  sortButton.textContent = "Sort Topics";
+  sortButton.id = "sortButton";
+
+  const header = document.querySelector(".OpenDay");
+  
+  sortButton.addEventListener("click", function(){
+    populate();
+  })
+
+
 async function populate() {
   //   const requestURL = "./OpenDay.json";
   //   const request = new Request(requestURL);
@@ -10,13 +23,19 @@ async function populate() {
     .then((response) => response.json())
     .then((data) => {
       //   console.log(data);
+      if(ascending) {
+        data.topics.sort((a, b) => b.id - a.id);
+      }else{
+        data.topics.sort((a, b) => a.id - b.id);
+      }
       populateTopics(data);
+      ascending = !ascending;
     })
     .catch((error) => console.error("Error fetching JSON:", error));
 }
 
 function populateTopics(obj) {
-  const header = document.querySelector(".OpenDay");
+  header.innerHTML = ""; // Clear existing content
   // console.log(header);
   const myH1 = document.createElement("h1");
   myH1.classList.add("text-center","p-4");
@@ -28,6 +47,7 @@ function populateTopics(obj) {
   //   myH2.classList.add("text-sm", "text-gray-700", "font-medium");
   myH2.textContent = "Start from " + obj.start_time + " to " + obj.end_time;
   myH1.appendChild(myH2);
+  header.appendChild(sortButton);
 
   // console.log(obj.topics);
   obj.topics.forEach((topic) => {
@@ -188,3 +208,5 @@ function populateTopics(obj) {
   const topics = document.createElement("section");
   topics.textContent = `Topics: ${obj.topics.name}`;
 }
+populate();
+})
