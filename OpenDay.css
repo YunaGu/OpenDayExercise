@@ -1,0 +1,22 @@
+/* 
+@layer utilities {
+    h2 {
+        @apply text-lg;
+    }
+    
+    p {
+        @apply text-sm;
+    }
+} */
+
+.programCard {
+    margin-bottom: 20px;
+    border: dashed;
+    padding: 20px;
+    border-radius: 20px;
+    /* background-color: aquamarine; */
+}
+
+.topicsContainer{
+    margin-bottom: 60px;
+}
