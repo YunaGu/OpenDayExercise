@@ -14,10 +14,12 @@ document.addEventListener("DOMContentLoaded",function(){
   searchInput.placeholder = "Search...";
   searchInput.classList.add("border", "border-gray-300", "p-1", "rounded","w-1/4");
 
+  //trigger sort topic
   sortButton.addEventListener("click", function(){
     populate();
   })
 
+  //trigger search
   searchInput.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
       ascending = !ascending; // in case every time it changes order
@@ -27,13 +29,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
 
 async function populate() {
-  //   const requestURL = "./OpenDay.json";
-  //   const request = new Request(requestURL);
-
-  //   const response = await fetch(request);
-  //   const topics = await response.json();
-
-  //   populateTopics(topics);
   fetch("./OpenDay.json")
     .then((response) => response.json())
     .then((data) => {
@@ -51,7 +46,7 @@ async function populate() {
 
 function populateTopics(obj) {
   header.innerHTML = ""; // Clear existing content
-  // console.log(header);
+
   // Check if myH1 and myH2 already exist
   let myH1 = title.querySelector(`h1`);
   let myH2 = title.querySelector("h2");
@@ -94,8 +89,7 @@ function populateTopics(obj) {
           program.description_short.toLowerCase().includes(searchTerm)
       )
   );
-  // console.log(filteredTopics);
-  // console.log(obj.topics);
+
   filteredTopics.forEach((topic) => {
     const topicsContainer = document.createElement("div");
     topicsContainer.classList.add("topicsContainer");
@@ -108,15 +102,11 @@ function populateTopics(obj) {
       "h-60",
       "border-2",
       "text-center"
-      //   "bg-fixed"
     );
     topicDetailsContainer.style.backgroundImage = `url('${topic.cover_image}')`;
     topicDetailsContainer.style.backgroundSize = "cover";
     topicDetailsContainer.style.backgroundPosition = "center";
     topicDetailsContainer.style.backgroundRepeat = "no-repeat";
-    // const topicCoverImage = document.createElement("img");
-    // topicCoverImage.src = `${topic.cover_image}`;
-    // topicCoverImage.classList.add("w-[100px]", "h-[50px]");
 
     const topicContainerText = document.createElement("div");
     topicContainerText.classList.add(
@@ -172,6 +162,7 @@ function populateTopics(obj) {
       "text-white"
     );
 
+    //trigger sort program
     sortProgramsButton.addEventListener("click", function () {
       if (ascending) {
         topic.programs.sort((a, b) => b.id - a.id);
@@ -183,14 +174,15 @@ function populateTopics(obj) {
     });
 
     const programsContainer = document.createElement("div");
-    // console.log(programsContainer);
+    
     topic.programs.forEach((program) => {
       const programContainer = document.createElement("div");
       programContainer.id = `${program.id}`;
       programContainer.classList.add("programCard");
 
+      // programContainer
       const programTitle = document.createElement("h2");
-      // console.log(program.title);
+
       programTitle.innerHTML =
         "program title: " + highlightMatchedWords(program.title, searchTerm);
 
@@ -222,7 +214,7 @@ function populateTopics(obj) {
       programContainer.appendChild(programRoom);
       programContainer.appendChild(programTimeContainer);
 
-      // console.log(program.location);
+      //locationContainer
       const locationContainer = document.createElement("div");
       locationContainer.id = `${program.location.id}`;
 
@@ -239,6 +231,7 @@ function populateTopics(obj) {
       locationWeb.href = `${program.location.website}`;
       locationWeb.textContent = "Web URL: " + program.location.website;
 
+      //booleans in location
       const locationBooleans = document.createElement("div");
       locationBooleans.classList.add("flex", "gap-2");
 
@@ -273,6 +266,7 @@ function populateTopics(obj) {
       locationContainer.appendChild(locationWeb);
       locationContainer.appendChild(locationBooleans);
 
+      //program type
       const programType = document.createElement("div");
       programType.textContent = "Program Type: " + program.programType.type;
       programType.classList.add(
@@ -289,7 +283,6 @@ function populateTopics(obj) {
     topicContainerText.appendChild(topicName);
     topicContainerText.appendChild(topicDescription);
     topicContainerText.appendChild(sortProgramsButton);
-    // topicDetailsContainer.appendChild(topicCoverImage);
 
     topicsContainer.appendChild(topicDetailsContainer);
     topicsContainer.appendChild(programsContainer);
