@@ -3,14 +3,16 @@ document.addEventListener("DOMContentLoaded",function(){
   const sortButton = document.createElement("Button");
   sortButton.textContent = "Sort Topics";
   sortButton.id = "sortButton";
-  sortButton.classList.add("border-2", "p-1", "rounded-lg", "text-center");
+  sortButton.classList.add("border-2", "p-1", "rounded-lg", "text-center","w-fit");
 
   const header = document.querySelector(".OpenDay");
-  
+  const title = document.createElement("div");
+  title.classList.add("flex","flex-col","items-center","gap-4", "p-4");
+
   const searchInput = document.createElement("input");
   searchInput.type = "text";
   searchInput.placeholder = "Search...";
-  searchInput.classList.add("border", "border-gray-300", "p-1", "rounded");
+  searchInput.classList.add("border", "border-gray-300", "p-1", "rounded","w-1/4");
 
   sortButton.addEventListener("click", function(){
     populate();
@@ -51,17 +53,18 @@ function populateTopics(obj) {
   header.innerHTML = ""; // Clear existing content
   // console.log(header);
   const myH1 = document.createElement("h1");
-  myH1.classList.add("text-center", "p-4");
+  myH1.classList.add("text-center");
   myH1.id = `${obj.id}`;
   myH1.textContent = obj.description;
   // console.log(obj.description);
-  header.appendChild(myH1);
   const myH2 = document.createElement("h2");
   myH2.classList.add("text-lg", "text-gray-700", "font-medium", "text-center");
   myH2.textContent = "Start from " + obj.start_time + " to " + obj.end_time;
-  header.appendChild(myH2);
-  myH2.appendChild(sortButton);
-  header.appendChild(searchInput);
+  title.appendChild(myH1);
+  title.appendChild(myH2);
+  title.appendChild(sortButton);
+  title.appendChild(searchInput);
+  header.appendChild(title);
 
   const searchTerm = searchInput.value.toLowerCase().trim();
   const filteredTopics = obj.topics.filter(
