@@ -65,7 +65,12 @@ function populateTopics(obj) {
   const filteredTopics = obj.topics.filter(
     (topic) =>
       topic.name.toLowerCase().includes(searchTerm) ||
-      topic.description.toLowerCase().includes(searchTerm)
+      topic.description.toLowerCase().includes(searchTerm) ||
+      topic.programs.some(program =>
+        program.title.toLowerCase().includes(searchTerm) ||
+        program.description.toLowerCase().includes(searchTerm) ||
+        program.description_short.toLowerCase().includes(searchTerm)
+    )
   );
   // console.log(filteredTopics);
   // console.log(obj.topics);
