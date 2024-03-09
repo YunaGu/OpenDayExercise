@@ -110,15 +110,38 @@ function populateTopics(obj) {
       "w-full"
     );
 
+    // Highlighting matched words
+    function highlightMatchedWords(text, term) {
+      if (!term || term.trim() === "") {
+        let highlightedText = document.createElement("span");
+        highlightedText.innerHTML = text;
+        return text; // Return the original text if no search term provided
+      }
+      // Escape special characters in the search term
+      const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp(`(${escapedTerm})`, "gi");
+      let highlightedText = document.createElement("span");
+      highlightedText.textContent = text.replace(
+        regex,
+        `<span class="highlight">$1</span>`
+      );
+
+      // Return the HTML content
+      return highlightedText.textContent;
+    }
+
     const topicName = document.createElement("h2");
     topicName.classList.add("text-white", "text-xl", "font-bold");
     // console.log(topic.name);
-    topicName.textContent = "topic name: " + topic.name;
+    topicName.innerHTML =
+      "topic name: " + highlightMatchedWords(topic.name, searchTerm);
 
     const topicDescription = document.createElement("p");
     topicDescription.classList.add("text-white", "text-xl", "font-bold");
     // console.log(topic.Description);
-    topicDescription.textContent = "topic Description: " + topic.description;
+    topicDescription.innerHTML =
+      "topic Description: " +
+      highlightMatchedWords(topic.description, searchTerm);
 
     const sortProgramsButton = document.createElement("button");
     sortProgramsButton.textContent = "Sort Programs";
@@ -148,14 +171,17 @@ function populateTopics(obj) {
 
       const programTitle = document.createElement("h2");
       // console.log(program.title);
-      programTitle.textContent = "program title: " + program.title;
+      programTitle.innerHTML =
+        "program title: " + highlightMatchedWords(program.title, searchTerm);
 
       const programDescription = document.createElement("p");
-      programDescription.textContent =
-        "program description: " + program.description;
+      programDescription.innerHTML =
+        "program description: " +
+        highlightMatchedWords(program.description, searchTerm);
       const programDescriptionShort = document.createElement("p");
-      programDescriptionShort.textContent =
-        "program description short: " + program.description_short;
+      programDescriptionShort.innerHTML =
+        "program description short: " +
+        highlightMatchedWords(program.description_short, searchTerm);
       const programRoom = document.createElement("p");
       programRoom.textContent = "program room: " + program.room;
 

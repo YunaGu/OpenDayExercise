@@ -20,3 +20,9 @@
 .topicsContainer{
     margin-bottom: 60px;
 }
+
+.highlight {
+    background-color: yellow;
+    color: black;
+    font-weight: bolder;
+}
