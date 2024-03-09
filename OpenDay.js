@@ -7,9 +7,19 @@ document.addEventListener("DOMContentLoaded",function(){
 
   const header = document.querySelector(".OpenDay");
   
+  const searchInput = document.createElement("input");
+  searchInput.type = "text";
+  searchInput.placeholder = "Search...";
+  searchInput.classList.add("border", "border-gray-300", "p-1", "rounded");
+
   sortButton.addEventListener("click", function(){
     populate();
   })
+
+  searchInput.addEventListener("input", function () {
+    ascending = !ascending; // in case every time it changes order
+    populate();
+  });
 
 
 async function populate() {
@@ -39,19 +49,27 @@ function populateTopics(obj) {
   header.innerHTML = ""; // Clear existing content
   // console.log(header);
   const myH1 = document.createElement("h1");
-  myH1.classList.add("text-center","p-4");
+  myH1.classList.add("text-center", "p-4");
   myH1.id = `${obj.id}`;
   myH1.textContent = obj.description;
   // console.log(obj.description);
   header.appendChild(myH1);
   const myH2 = document.createElement("h2");
-  myH2.classList.add("text-lg", "text-gray-700", "font-medium","text-center");
+  myH2.classList.add("text-lg", "text-gray-700", "font-medium", "text-center");
   myH2.textContent = "Start from " + obj.start_time + " to " + obj.end_time;
   header.appendChild(myH2);
   myH2.appendChild(sortButton);
+  header.appendChild(searchInput);
 
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const filteredTopics = obj.topics.filter(
+    (topic) =>
+      topic.name.toLowerCase().includes(searchTerm) ||
+      topic.description.toLowerCase().includes(searchTerm)
+  );
+  // console.log(filteredTopics);
   // console.log(obj.topics);
-  obj.topics.forEach((topic) => {
+  filteredTopics.forEach((topic) => {
     const topicsContainer = document.createElement("div");
     topicsContainer.classList.add("topicsContainer");
     topicsContainer.id = `${topic.id}`;
@@ -97,17 +115,22 @@ function populateTopics(obj) {
 
     const sortProgramsButton = document.createElement("button");
     sortProgramsButton.textContent = "Sort Programs";
-    sortProgramsButton.classList.add("border-2", "p-1", "rounded-lg", "text-white");
+    sortProgramsButton.classList.add(
+      "border-2",
+      "p-1",
+      "rounded-lg",
+      "text-white"
+    );
 
-    sortProgramsButton.addEventListener("click", function() {
+    sortProgramsButton.addEventListener("click", function () {
       if (ascending) {
-          topic.programs.sort((a, b) => b.id - a.id);
+        topic.programs.sort((a, b) => b.id - a.id);
       } else {
-          topic.programs.sort((a, b) => a.id - b.id);
+        topic.programs.sort((a, b) => a.id - b.id);
       }
       populateTopics(obj);
       ascending = !ascending;
-  });
+    });
 
     const programsContainer = document.createElement("div");
     // console.log(programsContainer);
