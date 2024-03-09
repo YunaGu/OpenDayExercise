@@ -52,14 +52,30 @@ async function populate() {
 function populateTopics(obj) {
   header.innerHTML = ""; // Clear existing content
   // console.log(header);
-  const myH1 = document.createElement("h1");
-  myH1.classList.add("text-center");
-  myH1.id = `${obj.id}`;
+  // Check if myH1 and myH2 already exist
+  let myH1 = title.querySelector(`h1`);
+  let myH2 = title.querySelector("h2");
+
+  if (!myH1) {
+    myH1 = document.createElement("h1");
+    myH1.classList.add("text-center");
+    myH1.id = `${obj.id}`;
+    title.appendChild(myH1);
+  }
   myH1.textContent = obj.description;
-  // console.log(obj.description);
-  const myH2 = document.createElement("h2");
-  myH2.classList.add("text-lg", "text-gray-700", "font-medium", "text-center");
+
+  if (!myH2) {
+    myH2 = document.createElement("h2");
+    myH2.classList.add(
+      "text-lg",
+      "text-gray-700",
+      "font-medium",
+      "text-center"
+    );
+    title.appendChild(myH2);
+  }
   myH2.textContent = "Start from " + obj.start_time + " to " + obj.end_time;
+
   title.appendChild(myH1);
   title.appendChild(myH2);
   title.appendChild(sortButton);
@@ -71,11 +87,12 @@ function populateTopics(obj) {
     (topic) =>
       topic.name.toLowerCase().includes(searchTerm) ||
       topic.description.toLowerCase().includes(searchTerm) ||
-      topic.programs.some(program =>
-        program.title.toLowerCase().includes(searchTerm) ||
-        program.description.toLowerCase().includes(searchTerm) ||
-        program.description_short.toLowerCase().includes(searchTerm)
-    )
+      topic.programs.some(
+        (program) =>
+          program.title.toLowerCase().includes(searchTerm) ||
+          program.description.toLowerCase().includes(searchTerm) ||
+          program.description_short.toLowerCase().includes(searchTerm)
+      )
   );
   // console.log(filteredTopics);
   // console.log(obj.topics);
