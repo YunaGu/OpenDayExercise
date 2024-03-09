@@ -16,9 +16,11 @@ document.addEventListener("DOMContentLoaded",function(){
     populate();
   })
 
-  searchInput.addEventListener("input", function () {
-    ascending = !ascending; // in case every time it changes order
-    populate();
+  searchInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      ascending = !ascending; // in case every time it changes order
+      populate();
+  }
   });
 
 
