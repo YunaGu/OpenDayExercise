@@ -9,7 +9,7 @@ HTML, CSS (+ TailWind CSS), JavaScript
 * topics (banner; name, description)
 * programs (cards; description, title...)
 * locations (postcode, url...)
-* bagdes (active, parking...)
+* badges (active, parking...)
 * sort by id (topic, programs)
 * search (topic name, description, program title, program description, and program description_short)
     * regex    
